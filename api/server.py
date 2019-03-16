@@ -17,7 +17,6 @@ class PredictionEndpoint():
 
     def endpoint(self):
         """The endpoint implementation"""
-        print(dir(self.model))
         req = request.get_json()
         text = ""
         try:
@@ -25,6 +24,9 @@ class PredictionEndpoint():
         except KeyError:
             abort(400)
 
+        prediction = self.predict(text)
+        language = prediction[0][0].replace("__label__", "")
+
         return jsonify({
-            "languages": self.predict(text),
+            "language": language,
         })
