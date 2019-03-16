@@ -45,8 +45,8 @@ def main():
         required=True,
     )
 
-
     args = parser.parse_args(sys.argv[1:])
+
     if args.mode == "run":
         model = fastText.load_model(args.model)
         app = Flask(__name__)
@@ -59,6 +59,7 @@ def main():
         )
         PrometheusMetrics(app)
         app.run(host=args.host, port=args.port)
+
     else:
         parser.print_help(sys.stderr)
         sys.exit(1)
