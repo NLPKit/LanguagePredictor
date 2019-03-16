@@ -5,7 +5,9 @@ jobs:
       - image: python:3.7-alpine
     working_directory: /LanguageDetector
     steps: &steps
-      - run: apk add git musl-dev gcc linux-headers
+      - run: apk add git musl-dev gcc linux-headers build-base
+      - run: git clone https://github.com/facebookresearch/fastText.git /fastText
+      - run: cd /fastText && git checkout 51e6738d734286251b6ad02e4fdbbcfe5b679382 && python setup.py install
       - checkout
       - run: pip install -r requirements.txt
       - run: python -m unittest discover ./test "test_*.py"
