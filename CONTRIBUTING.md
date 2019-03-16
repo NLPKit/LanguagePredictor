@@ -18,6 +18,23 @@ To build and test the code, it is required to have the following minimal toolset
 
 - [Python (3.7)](https://www.python.org/downloads/)
 
+You will also need the `fastText` Python library which must be built from source:
+
+```
+git clone git@github.com:facebookresearch/fastText.git
+cd fastText
+python setup.py install
+```
+
+To build the models, you may also want the `fasttext` binary:
+
+```
+git clone git@github.com:facebookresearch/fastText.git
+cd fastText
+make
+cp ./fasttext /usr/local/bin/
+```
+
 ## Test
 
 From the root of the repository, you can run the following to run all of the tests:

@@ -8,6 +8,15 @@ Run the following to install the `shuf` command on macOS:
 brew install coreutils
 ```
 
+You will also need the `fasttext` binary:
+
+```
+git clone git@github.com:facebookresearch/fastText.git
+cd fastText
+make
+cp ./fasttext /usr/local/bin/
+```
+
 ## Preparing the Data
 
 ```
