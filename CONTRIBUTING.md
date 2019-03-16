@@ -17,7 +17,6 @@ git clone git@github.com:NLPKit/LanguageDetector.git
 To build and test the code, it is required to have the following minimal toolset installed:
 
 - [Python (3.7)](https://www.python.org/downloads/)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 ## Test
 
@@ -41,12 +40,6 @@ circleci build
 
 First, `cd` to the root of the repository. All commands assume you're running them from the root of the repository.
 
-Start the development database via [Docker Compose](https://docs.docker.com/compose/reference/overview/):
-
-```bash
-docker-compose up -d
-```
-
 Install the Python dependencies:
 
 ```bash
@@ -59,4 +52,4 @@ Use the following command to run the local development server:
 python language_detector.py run
 ```
 
-The web application should now be available on http://localhost:8000.
+The web application should now be available on http://localhost:8080.
