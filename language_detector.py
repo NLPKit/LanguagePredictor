@@ -6,6 +6,7 @@ arbitrary text.
 import argparse
 import sys
 
+import fasttext
 from flask import Flask
 from prometheus_flask_exporter import PrometheusMetrics
 
@@ -29,6 +30,12 @@ def main():
         help="The host of the API server",
         default="127.0.0.1",
     )
+    parser_run.add_argument(
+        "--model",
+        type=str,
+        help="The fasttext model file",
+        required=True,
+    )
 
     parser_train = subparsers.add_parser(
         "train",
@@ -43,11 +50,13 @@ def main():
 
     args = parser.parse_args(sys.argv[1:])
     if args.mode == "run":
+        model = fasttext.load_model(args.model, label_prefix="__label__")
         app = Flask(__name__)
+        predict = server.PredictionEndpoint(model)
         app.add_url_rule(
             "/api/v1/language/predict",
             "predict",
-            view_func=api.server.predict,
+            view_func=predict.endpoint,
             methods=["POST"],
         )
         PrometheusMetrics(app)
