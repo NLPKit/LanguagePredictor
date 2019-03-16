@@ -6,7 +6,10 @@ arbitrary text.
 import argparse
 import sys
 
-from api.server import Server
+from flask import Flask
+from prometheus_flask_exporter import PrometheusMetrics
+
+import api.server
 
 def main():
     """The command entrypoint"""
@@ -40,8 +43,15 @@ def main():
 
     args = parser.parse_args(sys.argv[1:])
     if args.mode == "run":
-        server = Server(__name__, args.host, args.port)
-        server.run()
+        app = Flask(__name__)
+        app.add_url_rule(
+            "/api/v1/language/predict",
+            "predict",
+            view_func=api.server.predict,
+            methods=["POST"],
+        )
+        PrometheusMetrics(app)
+        app.run(host=args.host, port=args.port)
     elif args.mode == "train":
         print("Training is not implemented yet...")
 
