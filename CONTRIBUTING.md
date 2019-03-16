@@ -23,7 +23,7 @@ To build and test the code, it is required to have the following minimal toolset
 From the root of the repository, you can run the following to run all of the tests:
 
 ```bash
-python -m unittest discover . "*_test.py"
+python -m unittest discover ./test "test_*.py"
 ```
 
 ### Running A Full CI Build Locally

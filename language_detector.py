@@ -1,9 +1,15 @@
+"""
+Language Detector is a RESTful web service for detecting the language of
+arbitrary text.
+"""
+
 import argparse
 import sys
 
-from server import Server
+from api.server import Server
 
-if __name__ == "__main__":
+def main():
+    """The command entrypoint"""
     parser = argparse.ArgumentParser(prog="language_detector")
     subparsers = parser.add_subparsers(dest="mode")
 
@@ -25,10 +31,19 @@ if __name__ == "__main__":
         "train",
         help="Train a language detection model",
     )
+    parser_train.add_argument(
+        "--iterations",
+        type=int,
+        help="The number of iterations",
+        default=9001,
+    )
 
     args = parser.parse_args(sys.argv[1:])
     if args.mode == "run":
-        s = Server(__name__, args.host, args.port)
-        s.run()
+        server = Server(__name__, args.host, args.port)
+        server.run()
     elif args.mode == "train":
         print("Training is not implemented yet...")
+
+if __name__ == "__main__":
+    main()

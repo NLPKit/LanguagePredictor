@@ -8,7 +8,7 @@ jobs:
       - run: apk add git musl-dev gcc linux-headers
       - checkout
       - run: pip install -r requirements.txt
-      - run: python -m unittest discover . "*_test.py"
+      - run: python -m unittest discover ./test "test_*.py"
 workflows:
   version: 2
   build:
