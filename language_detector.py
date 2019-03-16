@@ -1,7 +1,15 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 """
 Language Detector is a RESTful web service for detecting the language of
 arbitrary text.
 """
+
+from __future__ import absolute_import
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
 
 import argparse
 import sys
@@ -37,16 +45,6 @@ def main():
         required=True,
     )
 
-    parser_train = subparsers.add_parser(
-        "train",
-        help="Train a language detection model",
-    )
-    parser_train.add_argument(
-        "--iterations",
-        type=int,
-        help="The number of iterations",
-        default=9001,
-    )
 
     args = parser.parse_args(sys.argv[1:])
     if args.mode == "run":
@@ -61,8 +59,9 @@ def main():
         )
         PrometheusMetrics(app)
         app.run(host=args.host, port=args.port)
-    elif args.mode == "train":
-        print("Training is not implemented yet...")
+    else:
+        parser.print_help(sys.stderr)
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
