@@ -12,6 +12,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 import argparse
+import os
 import sys
 
 import fastText
@@ -49,47 +50,41 @@ class PredictionEndpoint():
 
 def main():
     """The command entrypoint"""
-    parser = argparse.ArgumentParser(prog="language_detector")
-    subparsers = parser.add_subparsers(dest="mode")
-
-    parser_run = subparsers.add_parser("run", help="Run the API server")
-    parser_run.add_argument(
+    parser = argparse.ArgumentParser(prog="language_predictor")
+    parser.add_argument(
         "--port",
         type=int,
-        help="The port of the API server",
-        default=8080,
+        help="The port the API server should bind to ($PORT)",
+        default=os.environ.get("PORT", 8080),
     )
-    parser_run.add_argument(
+    parser.add_argument(
         "--host",
         type=str,
-        help="The host of the API server",
-        default="127.0.0.1",
+        help="The local address the API server should bind to ($HOST)",
+        default=os.environ.get("HOST", "127.0.0.1"),
     )
-    parser_run.add_argument(
+    parser.add_argument(
         "--model",
         type=str,
-        help="The fasttext model file",
+        help="[REQUIRED] The path to the fasttext model file ($MODEL)",
+        default=os.environ.get("MODEL", None),
         required=True,
     )
 
     args = parser.parse_args(sys.argv[1:])
 
-    if args.mode == "run":
-        model = fastText.load_model(args.model)
-        app = Flask(__name__)
-        predict = PredictionEndpoint(model)
-        app.add_url_rule(
-            "/api/v1/language/predict",
-            "predict",
-            view_func=predict.endpoint,
-            methods=["POST"],
-        )
-        PrometheusMetrics(app)
-        app.run(host=args.host, port=args.port)
+    model = fastText.load_model(args.model)
+    app = Flask(__name__)
+    predict = PredictionEndpoint(model)
+    app.add_url_rule(
+        "/api/v1/language/predict",
+        "predict",
+        view_func=predict.endpoint,
+        methods=["POST"],
+    )
+    PrometheusMetrics(app)
+    app.run(host=args.host, port=args.port)
 
-    else:
-        parser.print_help(sys.stderr)
-        sys.exit(1)
 
 if __name__ == "__main__":
     main()

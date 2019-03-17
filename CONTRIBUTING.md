@@ -66,7 +66,7 @@ pip install -r requirements.txt
 Use the following command to run the local development server:
 
 ```bash
-python language_predictor.py run
+python language_predictor.py --model ./data/tatoeba/langdetect.ftz
 ```
 
 The web application should now be available on http://localhost:8080.
