@@ -27,8 +27,12 @@ class PredictionEndpoint():
     def predict(self, text):
         """Make a language prediction"""
         prediction = self.model.predict(text)
-        language_code = prediction[0][0].replace("__label__", "")
-        return language_code
+        language = prediction[0][0].replace("__label__", "")
+        confidence = prediction[1][0]
+        return {
+            "language": language,
+            "confidence": confidence,
+        }
 
     def endpoint(self):
         """The endpoint implementation"""
@@ -40,7 +44,7 @@ class PredictionEndpoint():
             abort(400)
 
         return jsonify({
-            "language": self.predict(text),
+            "prediction": self.predict(text),
         })
 
 def main():
