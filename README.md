@@ -1,6 +1,8 @@
 # Language Predictor [![CircleCI](https://circleci.com/gh/NLPKit/LanguagePredictor.svg?style=svg)](https://circleci.com/gh/NLPKit/LanguagePredictor)
 
-Language Predictor is a lightweight server for detecting the language of arbitrary text. For development information, see the [Contributor Guide](./CONTRIBUTING.md).
+Language Predictor is a lightweight server for detecting the language of arbitrary text using [fastText](https://fasttext.cc/), a library built by [Facebook Research](https://github.com/facebookresearch) for fast text representation and classification.
+
+For development information, see the [Contributor Guide](./CONTRIBUTING.md). For questions, feature requests, bug reports, etc, please file a [GitHub Issue](https://github.com/NLPKit/LanguagePredictor/issues/new).
 
 ## API
 
@@ -8,7 +10,7 @@ The main endpoint exposed by Language Predictor is an HTTP POST request at `/api
 
 Consider the following curl command for testing the local server:
 
-```
+```bash
 curl \
   --header "Content-Type: application/json" \
   --request POST \
@@ -31,7 +33,7 @@ This will return a response like the following:
 
 To run the server locally, you must specify the fasttext model file:
 
-```
+```bash
 python language_predictor.py --model ./data/tatoeba/langdetect.ftz
 ```
 
@@ -41,10 +43,6 @@ By default the server will bind to http://127.0.0.1:8080.
 
 By default, Language Predictor serves a metrics endpoint in the Prometheus format at `/metrics`. To see what metrics are available, you can run the following curl command locally:
 
-```
+```bash
 curl http://localhost:8080/metrics
 ```
-
-## Getting Help
-
-For questions, feature requests, bug reports, etc, please file a [GitHub Issue](https://github.com/NLPKit/LanguagePredictor/issues/new).

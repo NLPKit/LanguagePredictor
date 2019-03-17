@@ -11,7 +11,7 @@ The contributor guide has the following sections:
 To get your development environment setup, you first must clone the source repository:
 
 ```
-git clone git@github.com:NLPKit/LanguageDetector.git
+git clone git@github.com:NLPKit/LanguagePredictor.git
 ```
 
 To build and test the code, it is required to have the following minimal toolset installed:
@@ -26,7 +26,7 @@ cd fastText
 python setup.py install
 ```
 
-To build the models, you may also want the `fasttext` binary:
+This repository contains pre-built models, but if you would like to easily build new models, you will also need the `fasttext` binary:
 
 ```
 git clone git@github.com:facebookresearch/fastText.git
@@ -57,16 +57,23 @@ circleci build
 
 First, `cd` to the root of the repository. All commands assume you're running them from the root of the repository.
 
-Install the Python dependencies:
+Make sure you have already installed the `fastText` Python module from source as described above. Once that is installed, install the rest of the Python dependencies with `pip`:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-Use the following command to run the local development server:
+Once all of the dependencies are instaalled, use the following command to run the local development server:
 
 ```bash
 python language_predictor.py --model ./data/tatoeba/langdetect.ftz
+```
+
+Alternatively, you may define the path to the model you'd like to use as an environment variable:
+
+```bash
+export MODEL=$(pwd)/data/tatoeba/langdetect.ftz
+python language_predictor.py
 ```
 
 The web application should now be available on http://localhost:8080.
