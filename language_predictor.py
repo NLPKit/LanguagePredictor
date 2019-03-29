@@ -14,18 +14,19 @@ from __future__ import unicode_literals
 import argparse
 import os
 import sys
+from typing import Any, Dict
 
 import fastText
-from flask import Flask, abort, jsonify, request
+from flask import Flask, Response, abort, jsonify, request
 from prometheus_flask_exporter import PrometheusMetrics
 
 class PredictionEndpoint():
     """The endpoint for making predictions"""
 
-    def __init__(self, model):
+    def __init__(self, model) -> None:
         self.model = model
 
-    def predict(self, text):
+    def predict(self, text: str) -> Dict[str, Any]:
         """Make a language prediction"""
         prediction = self.model.predict(text)
         language = prediction[0][0].replace("__label__", "")
@@ -35,7 +36,7 @@ class PredictionEndpoint():
             "confidence": confidence,
         }
 
-    def endpoint(self):
+    def endpoint(self) -> Response :
         """The endpoint implementation"""
         req = request.get_json()
         text = ""
@@ -48,7 +49,7 @@ class PredictionEndpoint():
             "prediction": self.predict(text),
         })
 
-def main():
+def main() -> None:
     """The command entrypoint"""
     parser = argparse.ArgumentParser(prog="language_predictor")
     parser.add_argument(
